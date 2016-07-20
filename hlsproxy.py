@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import urlparse
-
 import os, copy, errno
 from sys import argv
 from pprint import pformat
@@ -123,6 +122,9 @@ class HlsPlaylist:
                     lineIdx += 1
                 elif key == "#EXT-X-MEDIA":
                     self.handleMedia(value)
+		elif key == "#EXT-X-DISCONTINUITY":
+		    print "DISCONTINUITY EXIT"
+		    os._exit(0);				
                 elif key == "#EXTINF":
                     dur = float(value.split(',')[0])
                     url = lines[lineIdx]
