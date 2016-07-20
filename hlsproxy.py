@@ -540,8 +540,11 @@ class HlsProxy:
 
     def onGetPlaylistError(self, e):
         print "Error while getting the playlist: ", e
-        print "Retring after default interval of 2s"
-        self.reactor.callLater(2, self.retryPlaylist)
+        if  e.find('503 Service Unavailable') != -1:
+            print "503 Service Unavailable, no retry"    
+        else:
+            print "Retring after default interval of 2s"
+            self.reactor.callLater(2, self.retryPlaylist)
 
     def cbFragment(self, response, item):
         if self.verbose:
